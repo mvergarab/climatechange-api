@@ -25,6 +25,19 @@ const newspapers = [
 
 const articles = []
 
+const species_source = [
+  {
+    name: 'worldwildlife',
+    address: 'https://www.worldwildlife.org/species/directory?direction=desc&sort=extinction_status',
+    base: ''
+  },
+
+]
+
+
+const species = []
+
+
 newspapers.forEach(newspaper => {
     axios.get(newspaper.address)
       .then(response => {
@@ -79,5 +92,10 @@ app.get('/news/:newspaperId', async(req,res) => {
         res.json(specificArticles)
      }).catch(err => console.log(err))
 })
+
+app.get('/species',(req, res) => {
+  //res.json(articles)
+  console.log('species here')
+});
 
 app.listen(PORT, () => console.log(`server running on PORT ${PORT}`))
