@@ -34,7 +34,6 @@ const species_source = [
 
 ]
 
-
 const species = []
 
 
@@ -56,6 +55,26 @@ newspapers.forEach(newspaper => {
 
         })
       })
+})
+
+species_source.forEach(species =>{
+  axios.get(newspaper.address)
+  .then(response => {
+    const html = response.data
+    const $ = cheerio.load(html)
+
+    $('a:contains("climate")', html).each(function() {
+      const title = $(this).text()
+      const url = $(this).attr('href')
+
+      articles.push({
+        title,
+        url: newspaper.base + url,
+        source: newspaper.name
+      })
+
+    })
+  })
 })
 
 app.get('/',(req, res) => {
@@ -94,8 +113,7 @@ app.get('/news/:newspaperId', async(req,res) => {
 })
 
 app.get('/species',(req, res) => {
-  //res.json(articles)
-  console.log('species here')
+  res.json(animals)
 });
 
 app.listen(PORT, () => console.log(`server running on PORT ${PORT}`))
